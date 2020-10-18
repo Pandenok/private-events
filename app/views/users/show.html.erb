@@ -3,6 +3,17 @@
 <p>
   <strong>Name:</strong>
   <%= @user.name %>
+  <ul>
+    <% if @user.created_events.empty? %>
+      <p>User has no events</p>
+    <% else %>
+      <% @user.created_events.each do |event| %>
+        <li><%= event.name %></li>
+      <% end %>
+    <% end %>
+  </ul>
 </p>
+
+<%= link_to 'Create event', new_event_path %>
 
 <p>Find me in app/views/users/show.html.erb</p>
