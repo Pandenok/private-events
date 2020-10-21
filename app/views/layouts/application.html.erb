@@ -22,9 +22,14 @@
     <% end %>
 
     <div id="container">
+      <div id="logo">
+        <%= link_to "Home", root_path %>
+      </div>
+      
       <div id="user_header">
         <% if current_user %>
-          Logged in as <%= current_user.name %>
+          <%= link_to "Create event", new_event_path %>
+          Logged in as <%= link_to current_user.name, user_path(current_user) %>
           <%= link_to "Log Out", logout_path %>
         <% else %>
           <%= link_to "Sign Up", signup_path %> or

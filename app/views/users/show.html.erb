@@ -4,16 +4,44 @@
   <strong>Name:</strong>
   <%= @user.name %>
   <ul>
-    <% if @user.created_events.empty? %>
-      <p>User has no events</p>
+    Hosted events:
+    <% if @user.events.empty? %>
+      <p>User is not hosting</p>
     <% else %>
-      <% @user.created_events.each do |event| %>
-        <li><%= event.name %></li>
+      <% @user.events.each do |event| %>
+        <li><%=link_to event.name, event_path(event) %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</p>
+
+<p>
+  <ul>
+    Attended events:
+    <% if @user.attended_events.empty? %>
+      <p>User is not partying</p>
+    <% else %>
+      All
+      <% @user.attended_events.each do |event| %>
+        <li><%=link_to event.name, event_path(event) %></li>
+      <% end %>
+      Previously attended events:
+      <% @user.attended_events.where('date <= ?', Date.today).each do |event| %>
+        <li><%=link_to event.name, event_path(event) %></li>
+      <% end %>
+      Upcoming events:
+      <% @user.attended_events.where('date >= ?', Date.today).each do |event| %>
+        <li><%=link_to event.name, event_path(event) %></li>
       <% end %>
     <% end %>
   </ul>
 </p>
 
 <%= link_to 'Create event', new_event_path %>
+
+<br/>
+<br/>
+<%= link_to 'Back', :back %>
+
 
 <p>Find me in app/views/users/show.html.erb</p>

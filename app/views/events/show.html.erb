@@ -1,5 +1,33 @@
 <h1>Events#show</h1>
 
 <p>
-<strong><%= @event.name %></strong> event was created by <strong><%= @event.creator.name %></strong>
+Event name: <strong><%= @event.name %></strong>
 </p>
+
+<p>
+by <small><strong><%= @event.creator.name %></strong></small>
+</p>
+
+<p>
+Attendees: <strong><%= @event.attendees.count %></strong>
+</p>
+
+<p>
+<% if @event.attendees.any? %>
+  <% @event.attendees.each do |attendee| %>
+    <strong><%= attendee.name %></strong>
+  <% end %>
+<% end %>
+</p>
+
+<br/>
+<% if @event.creator == current_user %>
+  <%= button_to "Invite" %>
+<% elsif @event.attendees.exists?(id: current_user.id) %>
+  <p>You're already attending this event</p>
+  <%= button_to "Cancel enrollment", enrollment_path(event_id: @event.id), method: :delete %>
+<% else %>
+  <%= button_to "Enroll", enrollments_path(event_id: @event.id, user_id: current_user.id) %>
+<% end %>
+
+<%= link_to 'Back', :back %>

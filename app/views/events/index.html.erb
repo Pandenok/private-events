@@ -1,9 +1,43 @@
 <h1>Events#index</h1>
 
+<div>All events</div>
 <div>
   <ul>
     <% @events.each do |event| %>
-      <li><%= event.name %> in <%= event.location %> on <%= event.date %>  </li>
+      <li><%= link_to event.name, event_path(event) %> in <%= event.location %> on <%= event.date %>  </li>
+    <% end %>
+  </ul>
+</div>
+
+<br/>
+
+<div>Past Events</div>
+<div>
+  <ul>
+    <% @events.past.each do |event| %>
+      <li><%= link_to event.name, event_path(event) %> in <%= event.location %> on <%= event.date %>  </li>
+    <% end %>
+  </ul>
+</div>
+
+<br/>
+
+<div>Upcoming Events</div>
+<div>
+  <ul>
+    <% @events.upcoming.each do |event| %>
+      <li><%= link_to event.name, event_path(event) %> in <%= event.location %> on <%= event.date %>  </li>
+    <% end %>
+  </ul>
+</div>
+
+<br/>
+
+<div>Today Events</div>
+<div>
+  <ul>
+    <% @events.today.each do |event| %>
+      <li><%= link_to event.name, event_path(event) %> in <%= event.location %> on <%= event.date %>  </li>
     <% end %>
   </ul>
 </div>

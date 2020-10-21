@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     @user.save
     session[:user_id] = @user.id
     flash.notice = "User #{@user.name} successfully created! Thank you for signing up!"
-    redirect_to user_path
+    redirect_to user_path(@user)
   end
 
   def show
