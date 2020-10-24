@@ -1,10 +1,14 @@
 <%= form_with(model: user, local: true) do |f| %>
   <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+    <div class="control">
+      <%= f.label :name, class: "label" %>
+      <%= f.text_field :name, class: "input", autofocus: true %>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="field">
+    <div class="control">
+      <%= f.submit "Sign Up", class: "button is-primary is-large is-fullwidth" %>
+    </div>
   </div>
 <% end %>

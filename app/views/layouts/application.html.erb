@@ -21,22 +21,49 @@
       </div>
     <% end %>
 
-    <div id="container">
-      <div id="logo">
-        <%= link_to "Home", root_path %>
-      </div>
-      
-      <div id="user_header">
-        <% if current_user %>
-          <%= link_to "Create event", new_event_path %>
-          Logged in as <%= link_to current_user.name, user_path(current_user) %>
-          <%= link_to "Log Out", logout_path %>
-        <% else %>
-          <%= link_to "Sign Up", signup_path %> or
-          <%= link_to "Log In", login_path %>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <div class="navbar-item">
+          <img src="https://clipartstation.com/wp-content/uploads/2017/11/clipart-binatang-7.jpg" width="25" height="25">
+        </div>
+        <%= link_to root_path, class: "navbar-item" do %>
+          <h1 class="title is-4">Eventoon</h1>
         <% end %>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
-    </div>
+
+      <div id="navbarExample" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <%= link_to "Create event", new_event_path, class: "button is-white" %>
+              </p>
+              <% if current_user %>
+                <p class="control">
+                  <%= link_to current_user.name, user_path(current_user), class: "button is-white" %>
+                </p>
+                <p>
+                  <%= link_to "Logout", logout_path, class: "button is-white" %>
+                </p>
+              <% else %>
+                <p class="control">
+                  <%= link_to 'Sign In', login_path, class: "button is-white" %>
+                </p>
+						    <p class="control">
+                  <%= link_to 'Sign Up', signup_path, class: "button is-white" %>
+                </p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
 
     <%= yield %>
   </body>

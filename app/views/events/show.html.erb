@@ -1,33 +1,78 @@
-<h1>Events#show</h1>
+<div class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-5">
+        <div class="box">
+          <h2 class="title is-2 is-spaced has-text-centered mb-6"><%= @event.name %></h2>
 
-<p>
-Event name: <strong><%= @event.name %></strong>
-</p>
+          <div class="columns is-mobile is-centered">
+            <div class="column">
+              <p><small>Hosted by</small></p>
+              <h4 class="subtitle is-4"><%= @event.creator.name %></h4>
+            </div>
+            
+            <%# <div class="column"></div> %>
+            
+            <div class="column">
+              <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                  <button class="button is-large is-fullwidth" aria-haspopup="true" aria-controls="dropdown-menu3">
+                    <span>Attendies: <%= @event.attendees.count %></span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu6" role="menu">
+                  <div class="dropdown-content">
+                    <ul>
+                      <% if @event.attendees.any? %>
+                        <div class="dropdown-item">
+                          <% @event.attendees.each do |attendee| %>
+                            <li><p><%= attendee.name %></p></li>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<p>
-by <small><strong><%= @event.creator.name %></strong></small>
-</p>
+          <p class="has-text-justified"><%= @event.description %></p><br/>
 
-<p>
-Attendees: <strong><%= @event.attendees.count %></strong>
-</p>
+          <div class="columns is-mobile is-centered">
+            <div class="column">
+              <div class="card">
+                <div class="card-header">
+                  <p class="card-header-title is-centered"><%= @event.location %></p>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <div class="card">
+                <div class="card-header">
+                  <p class="card-header-title is-centered"><%= @event.date %></p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<p>
-<% if @event.attendees.any? %>
-  <% @event.attendees.each do |attendee| %>
-    <strong><%= attendee.name %></strong>
-  <% end %>
-<% end %>
-</p>
+          <br/>
 
-<br/>
-<% if @event.creator == current_user %>
-  <%= button_to "Invite" %>
-<% elsif @event.attendees.exists?(id: current_user.id) %>
-  <p>You're already attending this event</p>
-  <%= button_to "Cancel enrollment", enrollment_path(event_id: @event.id), method: :delete %>
-<% else %>
-  <%= button_to "Enroll", enrollments_path(event_id: @event.id, user_id: current_user.id) %>
-<% end %>
+          <% if @event.creator == current_user %>
+            <%= button_to "Invite", root_path,  class: "button is-info is-large is-fullwidth" %>
+          <% elsif @event.attendees.exists?(id: current_user.id) %>
+            <%= button_to "Cancel enrollment", enrollment_path(event_id: @event.id), method: :delete, class: "button is-danger is-large is-fullwidth" %>
+          <% else %>
+            <%= button_to "Enroll", enrollments_path(event_id: @event.id, user_id: current_user.id), class: "button is-primary is-large is-fullwidth" %>
+          <% end %>
 
-<%= link_to 'Back', :back %>
+          <br/>
+
+          <%= link_to 'Back', :back, class: "button is-fullwidth" %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

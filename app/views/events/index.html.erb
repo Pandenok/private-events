@@ -1,43 +1,51 @@
-<h1>Events#index</h1>
-
-<div>All events</div>
-<div>
-  <ul>
-    <% @events.each do |event| %>
-      <li><%= link_to event.name, event_path(event) %> in <%= event.location %> on <%= event.date %>  </li>
-    <% end %>
-  </ul>
+<div class="top">
+  <div class="section">
+    <h2 class="title is-2">Upcoming Events</h2>
+    <div class="columns">
+      <% @events.upcoming.each do |event| %>
+        <div class="column is-3">
+          <div class="card">
+            <header class="card-header">
+              <%= link_to event.name, event_path(event), class: "card-header-title is-centered" %>
+            </header>
+            <div class="card-content">
+              <div class="content has-text-justified">
+                <%= event.description.truncate_words(12) %>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <p class="card-footer-item is-narrow"><%= event.date %></p>
+              <p class="card-footer-item"><%= event.location %></p>
+            </footer>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
 
-<br/>
-
-<div>Past Events</div>
-<div>
-  <ul>
-    <% @events.past.each do |event| %>
-      <li><%= link_to event.name, event_path(event) %> in <%= event.location %> on <%= event.date %>  </li>
-    <% end %>
-  </ul>
-</div>
-
-<br/>
-
-<div>Upcoming Events</div>
-<div>
-  <ul>
-    <% @events.upcoming.each do |event| %>
-      <li><%= link_to event.name, event_path(event) %> in <%= event.location %> on <%= event.date %>  </li>
-    <% end %>
-  </ul>
-</div>
-
-<br/>
-
-<div>Today Events</div>
-<div>
-  <ul>
-    <% @events.today.each do |event| %>
-      <li><%= link_to event.name, event_path(event) %> in <%= event.location %> on <%= event.date %>  </li>
-    <% end %>
-  </ul>
+<div class="bottom">
+  <div class="section">
+    <h2 class="title is-2">Past Events</h2>
+    <div class="columns">
+      <% @events.past.each do |event| %>
+        <div class="column is-3">
+          <div class="card">
+            <header class="card-header">
+              <%= link_to event.name, event_path(event), class: "card-header-title is-centered" %>
+            </header>
+            <div class="card-content">
+              <div class="content has-text-justified">
+                <%= event.description.truncate_words(12) %>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <p class="card-footer-item"><%= event.date %></p>
+              <p class="card-footer-item"><%= event.location %></p>
+            </footer>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

@@ -1,47 +1,49 @@
-<h1>Users#show</h1>
+<div class="section">
+  <div class="container">
+	  <div class="columns is-centered">
+      <div class="column is-9">
+        <h2 class="title is-2 is-spaced has-text-centered"><%= @user.name %>'s Profile</h2>
+	      <div class="columns is-centered">
+          <div class="column">
+            <h3 class="subtitle is-3 has-text-centered">Hosted Events: <%= @user.events.count %></h3>
+            <ul>
+              <% if @user.events.empty? %>
+                <p>User is not hosting</p>
+              <% else %>
+                <% @user.events.each do |event| %>
+                  <li class="has-text-centered"><%=link_to event.name, event_path(event) %></li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-  <ul>
-    Hosted events:
-    <% if @user.events.empty? %>
-      <p>User is not hosting</p>
-    <% else %>
-      <% @user.events.each do |event| %>
-        <li><%=link_to event.name, event_path(event) %></li>
-      <% end %>
-    <% end %>
-  </ul>
-</p>
+          <div class="column has-text-centered">
+            <h3 class="subtitle is-3">Upcoming Events: <%= @user.attended_events.where('date >= ?', Date.today).count %></h3>
+            <ul>
+              <% if @user.attended_events.where('date >= ?', Date.today).count.zero? %>
+                <p>No planned parties</p>
+              <% else %>
+                <% @user.attended_events.where('date >= ?', Date.today).each do |event| %>
+                  <li class="has-text-centered"><%=link_to event.name, event_path(event) %></li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
 
-<p>
-  <ul>
-    Attended events:
-    <% if @user.attended_events.empty? %>
-      <p>User is not partying</p>
-    <% else %>
-      All
-      <% @user.attended_events.each do |event| %>
-        <li><%=link_to event.name, event_path(event) %></li>
-      <% end %>
-      Previously attended events:
-      <% @user.attended_events.where('date <= ?', Date.today).each do |event| %>
-        <li><%=link_to event.name, event_path(event) %></li>
-      <% end %>
-      Upcoming events:
-      <% @user.attended_events.where('date >= ?', Date.today).each do |event| %>
-        <li><%=link_to event.name, event_path(event) %></li>
-      <% end %>
-    <% end %>
-  </ul>
-</p>
-
-<%= link_to 'Create event', new_event_path %>
-
-<br/>
-<br/>
-<%= link_to 'Back', :back %>
-
-
-<p>Find me in app/views/users/show.html.erb</p>
+          <div class="column has-text-centered">
+            <h3 class="subtitle is-3 has-text-centered">Attended Events: <%= @user.attended_events.where('date < ?', Date.today).count %></h3>
+            <ul>
+              <% if @user.attended_events.empty? %>
+                <p>User is not partying</p>
+              <% else %>
+                <% @user.attended_events.where('date < ?', Date.today).each do |event| %>
+                  <li class="has-text-centered"><%=link_to event.name, event_path(event) %></li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
