@@ -18,7 +18,9 @@ class EnrollmentsController < ApplicationController
       Enrollment.find(params[:id]).destroy
       flash[:notice] = "The invitation is cancelled!"
     else
-      Enrollment.find(params[:id]).user_id = nil
+      enrollment = Enrollment.find(params[:id])
+      enrollment.user_id = nil
+      enrollment.save
       flash[:notice] = "You have dropped the enrollment for the #{event.name}!"
     end
 
