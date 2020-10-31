@@ -6,17 +6,39 @@
           <h2 class="title is-2 is-spaced has-text-centered mb-6"><%= @event.name %></h2>
 
           <div class="columns is-mobile is-centered">
-            <div class="column">
+            <div class="column is-5">
               <p><small>Hosted by</small></p>
               <h4 class="subtitle is-4"><%= @event.creator.name %></h4>
             </div>
             
             <%# <div class="column"></div> %>
+            <div class="column">
+              <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                  <button class="button is-fullwidth" aria-haspopup="true" aria-controls="dropdown-menu3">
+                    <span>Invitees: <%= @event.invitees.count %></span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu6" role="menu">
+                  <div class="dropdown-content">
+                    <ul>
+                      <% if @event.invitees.any? %>
+                        <div class="dropdown-item">
+                          <% @event.invitees.each do |invitee| %>
+                            <li><p><%= invitee.name %></p></li>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
             
             <div class="column">
               <div class="dropdown is-hoverable">
                 <div class="dropdown-trigger">
-                  <button class="button is-large is-fullwidth" aria-haspopup="true" aria-controls="dropdown-menu3">
+                  <button class="button is-fullwidth" aria-haspopup="true" aria-controls="dropdown-menu3">
                     <span>Attendies: <%= @event.attendees.count %></span>
                   </button>
                 </div>
@@ -59,11 +81,14 @@
           <br/>
 
           <% if @event.creator == current_user %>
-            <%= button_to "Invite", root_path,  class: "button is-info is-large is-fullwidth" %>
-          <% elsif @event.attendees.exists?(id: current_user.id) %>
-            <%= button_to "Cancel enrollment", enrollment_path(event_id: @event.id), method: :delete, class: "button is-danger is-large is-fullwidth" %>
+            <%= button_to "Invite", users_path, params: {:event_id => @event.id}, method: :get, class: "button is-info is-large is-fullwidth" %>
           <% else %>
-            <%= button_to "Enroll", enrollments_path(event_id: @event.id, user_id: current_user.id), class: "button is-primary is-large is-fullwidth" %>
+            <% if @event.attendees.exists?(id: current_user.id) %>
+              <% enrollment = Enrollment.find_by(event_id: @event.id, invitee_id: current_user.id) %>
+              <%= button_to "Cancel enrollment", enrollment_path(id: enrollment.id, event_id: @event.id, invitee_id: current_user.id), method: :delete, class: "button is-danger is-large is-fullwidth" %>
+            <% else %>
+              <%= button_to "Enroll", enrollment_path(event_id: @event.id), method: :patch, class: "button is-primary is-large is-fullwidth" %>
+            <% end %>
           <% end %>
 
           <br/>

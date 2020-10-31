@@ -1,9 +1,35 @@
-<h1>Users</h1>
+<div class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-5">
+        <div class="box">
+          <h2 class="title is-2 is-spaced has-text-centered mb-6">All users</h2>
+            <div class="columns is-centered">
+              <div class="column has-text-centered">
+                <ul>
+                  <% @users.each do |user| %>
+                    <li><%= user.name %></li>    
+                  <% end %>
+                </ul>
+              </div>
+              <div class="column has-text-centered">
+                <% @users.each do |user| %>
+                  <% if Event.find(params[:event_id]).creator == user %>
+                    Creator
+                  <% elsif Event.find(params[:event_id]).invitees.exists?(id: user.id) %>
+                    <% enrollment = Enrollment.find_by(event_id: params[:event_id], invitee_id: user.id) %>
+                    <%= button_to "Cancel Invitation", enrollment_path(id: enrollment.id, event_id: params[:event_id]), method: :delete, class: "button is-primary is-small is-fullwidth" %>
+                  <% else %>  
+                    <%= button_to "Invite", enrollments_path(event_id: params[:event_id], invitee_id: user.id), class: "button is-primary is-small is-fullwidth" %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
 
-<div id="users">
-  <ul>
-    <% @users.each do |user| %>
-    <li><%= user.name %></li>
-    <% end %>
-  </ul>
+          <%= link_to 'Back', :back, class: "button is-fullwidth" %>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

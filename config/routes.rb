@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :events
-  resources :enrollments, only: [:create, :destroy]
+  resources :enrollments, only: [:create, :destroy, :update]
 end

@@ -4,7 +4,7 @@
       <div class="column is-9">
         <h2 class="title is-2 is-spaced has-text-centered"><%= @user.name %>'s Profile</h2>
 	      <div class="columns is-centered">
-          <div class="column">
+          <div class="column has-text-centered">
             <h3 class="subtitle is-3 has-text-centered">Hosted Events: <%= @user.events.count %></h3>
             <ul>
               <% if @user.events.empty? %>
