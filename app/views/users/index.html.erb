@@ -10,26 +10,30 @@
               <tbody>
                 <th class="has-text-centered">Name</th>
                 <th class="has-text-centered">Status</th>
-                <% @users.each do |user| %>
-                <tr>
-                  <td class="has-text-centered">
-                    <%= user.name %>
-                  </td>
-                  <% if Event.find(params[:event_id]).creator == user %>
+                <th class="has-text-centered">Action</th>
+                <% @users.reject { |user| user == Event.find(params[:event_id]).creator }.each do |user| %>
+                  <% enrollment = Enrollment.find_by(event_id: params[:event_id], user_id: user.id) %>
+                  <tr>
                     <td class="has-text-centered">
-                      Creator
+                      <%= user.name %>
                     </td>
-                  <% elsif Event.find(params[:event_id]).invitees.exists?(id: user.id) %>
-                    <% enrollment = Enrollment.find_by(event_id: params[:event_id], invitee_id: user.id) %>
-                    <td class="has-text-centered">
-                      <%= button_to "Cancel Invitation", enrollment_path(id: enrollment.id, event_id: params[:event_id]), method: :delete, class: "button is-primary is-small is-fullwidth" %>
-                    </td>
-                  <% else %>
-                    <td class="has-text-centered">
-                      <%= button_to "Invite", enrollments_path(event_id: params[:event_id], invitee_id: user.id), class: "button is-primary is-small is-fullwidth" %>
-                    </td>
-                  <% end %>
-                </tr>
+                    <% unless enrollment.nil? || enrollment.status.nil? %>
+                      <td class="has-text-centered">
+                        <span class="tag is-primary is-medium is-light"><%= enrollment.status %><span>
+                      </td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <% if enrollment.nil? %>
+                      <td class="has-text-centered">
+                        <%= button_to "Invite", enrollments_path(event_id: params[:event_id], user_id: user.id), class: "button is-primary is-small" %>
+                      </td>
+                    <% else %>
+                      <td class="has-text-centered">
+                        <%= button_to "Cancel Invitation", enrollment_path(id: enrollment.id, event_id: params[:event_id]), method: :delete, class: "button is-danger is-small" %>
+                      </td>
+                    <% end %>
+                  </tr>
                 <% end %>
               </tbody>
             </table>
@@ -37,7 +41,7 @@
 
           <br/>
 
-          <%= link_to 'Back', :back, class: "button is-fullwidth" %>
+          <%= link_to 'Back to Event Details', event_path(id: params[:event_id]), class: "button is-fullwidth" %>
 
         </div>
       </div>
