@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   include EventsHelper
+  before_action :require_login, except: [:index]
 
   def index
     @events = Event.all

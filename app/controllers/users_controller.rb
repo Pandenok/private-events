@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   include UsersHelper
+  before_action :require_login, except: [:new, :create]
 
   def index
     @users = User.all
