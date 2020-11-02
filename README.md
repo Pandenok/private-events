@@ -19,9 +19,9 @@ You can use 'Fred Flintstone', 'Alice', 'Mickey Mouse', 'Homer Simpson' or 'Spon
 For those who are not patient, here are a couple of screenshots of what it looks like
 
 <p float = 'left'>
-    <img src="img/private_events.png" alt="Private events home page" width="400" height="200">
+    <img src="img/private_events.png" alt="Private events home page" width="390" height="200">
     <img src="img/private_events2.png" alt="Private events event card" width="180" height="200">
-    <img src="img/private_events3.png" alt="Private events guest list" width="250" height="200">
+    <img src="img/private_events3.png" alt="Private events guest list" width="230" height="200">
 </p>
 
 ### Getting started
