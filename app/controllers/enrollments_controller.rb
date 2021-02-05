@@ -1,4 +1,6 @@
 class EnrollmentsController < ApplicationController
+  before_action :require_login
+
   def create
     event = Event.find(params[:event_id])
     enrollment = Enrollment.new(event_id: event.id, user_id: params[:user_id])
@@ -20,8 +22,8 @@ class EnrollmentsController < ApplicationController
       enrollment.destroy
       flash[:notice] = "The invitation is cancelled!"
     else
-      enrollment.status = 'invited'
-      enrollment.save
+      enrollment.invited!
+      # enrollment.save
       flash[:notice] = "You have dropped the enrollment for the #{event.name}!"
     end
 
